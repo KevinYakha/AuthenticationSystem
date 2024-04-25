@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 public class Authenticator
 {
     private class EyeColor
     {
-        public string Blue = "blue";
-        public string Green = "green";
-        public string Brown = "brown";
-        public string Hazel = "hazel";
-        public string Grey = "grey";
+        private const string Blue = "blue";
+        private const string Green = "green";
+        private const string Brown = "brown";
+        private const string Hazel = "hazel";
+        private const string Grey = "grey";
     }
 
     public Authenticator(Identity admin)
@@ -18,7 +19,7 @@ public class Authenticator
 
     private Identity admin;
 
-    private IDictionary<string, Identity> developers
+    private readonly IDictionary<string, Identity> developers
         = new Dictionary<string, Identity>
         {
             ["Bertrand"] = new Identity
@@ -37,12 +38,12 @@ public class Authenticator
     public Identity Admin
     {
         get { return admin; }
-        set { admin = value; }
+        private set { admin = value; }
     }
 
     public IDictionary<string, Identity> GetDevelopers()
     {
-        return developers;
+        return new ReadOnlyDictionary<string, Identity>(developers);
     }
 }
 
